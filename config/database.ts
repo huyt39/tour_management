@@ -1,11 +1,14 @@
 import {Sequelize} from "sequelize";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const sequelize = new Sequelize( //dat ten bien la gi cung duoc, khong nhat thiet la sequelize
- 'tour_management',   //ten db
- 'root', //username de dang nhap, mac dinh la root
- '', //password mac dinh de trong
+ process.env.DATABASE_NAME,   //ten db
+ process.env.DATABASE_USERNAME, //username de dang nhap, mac dinh la root
+ process.env.DATABASE_PASSWORD, //password mac dinh de trong
   {
-    host: 'localhost', //link hosting, sau nay thay bang link online
+    host: process.env.DATABASE_HOST, //link hosting, sau nay thay bang link online
     dialect: 'mysql'
   }
 );
