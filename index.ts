@@ -11,7 +11,7 @@ dotenv.config(); //goi den dotenv
 const app: Express = express();
 const port: number | string = process.env.PORT ||  3000;
 
-
+app.use(express.static("public"));
 app.set ("views", "./views");
 app.set ("view engine", "pug");
 
