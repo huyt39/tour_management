@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
+include ../../mixins/moment.pug
 
 
 block main
@@ -7,32 +8,32 @@ block main
     .container.my-3
       .row
         .col-6
-          .inner-images
-            .inner-image
-                img(src="https://backend.daca.vn/assets/tour/images/tour-ha-long.jpg")
-            .inner-image 
-                img(src="https://backend.daca.vn/assets/tour/images/tour-ha-long-2.jpg")
-            .inner-image 
-                img(src="https://backend.daca.vn/assets/tour/images/tour-ha-long.jpg")
+            if(tourDetail.images)
+                .inner-images
+                    each image in tourDetail.images 
+                        .inner-image
+                            img(src=image)
+                    
                     
         .col-6
-          .inner-title Tour Hạ Long
+          .inner-title #{tourDetail.title}
 
           .inner-barcode
-            <i class="fa-solid fa-barcode"></i> Mã tour: TOUR000001
+            <i class="fa-solid fa-barcode"></i> Mã tour: #{tourDetail.code}
 
           .inner-time-start
-            <i class="fa-solid fa-calendar-days"></i> Lịch khởi hành: 08:30 - 15/01/2023
+            <i class="fa-solid fa-calendar-days"></i> Lịch khởi hành: 
+            +formatDateTime(tourDetail.timeStart)
 
           .inner-stock
-            <i class="fa-solid fa-person-walking-luggage"></i> Còn lại: 5 chỗ
-          .inner-price-special 400,000đ
-          .inner-price 500,000đ
-          .inner-percent Giảm tới 20%
+            <i class="fa-solid fa-person-walking-luggage"></i> Còn lại: #{tourDetail.stock} chỗ
+          .inner-price-special #{tourDetail.price_special.toLocaleString()}đ
+          .inner-price #{tourDetail.price.toLocaleString()}đ
+          .inner-percent Giảm tới #{tourDetail.discount}%
 
           form(
             form-add-to-cart
-            tour-id=`:tourId`
+            tour-id=tourDetail.id
           )
             input(
               class="form-control mb-2"
@@ -40,7 +41,7 @@ block main
               name="quantity"
               value="1"
               min="1"
-              max="10"
+              max=tourDetail.stock
             )
             button(
               type="submit"
@@ -53,10 +54,10 @@ block main
           .inner-infomation
             .inner-label Thông tin tour
             .inner-text
-              | Nội dung Thông tin tour...
+              | !{tourDetail.information}
 
         .col-12
           .inner-infomation
             .inner-label Lịch trình tour
             .inner-text
-              | Nội dung Lịch trình tour...
+              | !{tourDetail.schedule}

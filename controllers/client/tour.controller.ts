@@ -62,10 +62,24 @@ export const index = async (req: Request, res: Response)=>{
 //[GET] /tours/detail/:slugTour
 export const detail = async (req: Request, res: Response)=>{
     const slugTour=req.params.slugTour;
-    console.log(slugTour);
+    const tourDetail=await Tour.findOne({
+        where:{
+            slug: slugTour,
+            deleted: false,
+            status: "active"
+        },
+        raw: true
+    });
 
+    if(tourDetail["images"]){
+        tourDetail["images"]=JSON.parse(tourDetail["images"]); //chuyen anh tu json ve array
+    }
+    
+    tourDetail["price_special"]=tourDetail["price"] * (1-tourDetail["discount"]/100);
+    console.log(tourDetail);
     res.render("client/pages/tours/detail", {
         pageTitle: "Chi tiết tour",
+        tourDetail: tourDetail
         
     });
 }
