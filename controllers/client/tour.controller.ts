@@ -59,3 +59,13 @@ export const index = async (req: Request, res: Response)=>{
         tours: tours
     });
 }
+//[GET] /tours/detail/:slugTour
+export const detail = async (req: Request, res: Response)=>{
+    const slugTour=req.params.slugTour;
+    console.log(slugTour);
+
+    res.render("client/pages/tours/detail", {
+        pageTitle: "Chi tiết tour",
+        
+    });
+}

@@ -1,0 +1,62 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+
+block main
+  .tour-detail
+    .container.my-3
+      .row
+        .col-6
+          .inner-images
+            .inner-image
+                img(src="https://backend.daca.vn/assets/tour/images/tour-ha-long.jpg")
+            .inner-image 
+                img(src="https://backend.daca.vn/assets/tour/images/tour-ha-long-2.jpg")
+            .inner-image 
+                img(src="https://backend.daca.vn/assets/tour/images/tour-ha-long.jpg")
+                    
+        .col-6
+          .inner-title Tour Hạ Long
+
+          .inner-barcode
+            <i class="fa-solid fa-barcode"></i> Mã tour: TOUR000001
+
+          .inner-time-start
+            <i class="fa-solid fa-calendar-days"></i> Lịch khởi hành: 08:30 - 15/01/2023
+
+          .inner-stock
+            <i class="fa-solid fa-person-walking-luggage"></i> Còn lại: 5 chỗ
+          .inner-price-special 400,000đ
+          .inner-price 500,000đ
+          .inner-percent Giảm tới 20%
+
+          form(
+            form-add-to-cart
+            tour-id=`:tourId`
+          )
+            input(
+              class="form-control mb-2"
+              type="number"
+              name="quantity"
+              value="1"
+              min="1"
+              max="10"
+            )
+            button(
+              type="submit"
+              class="btn btn-success btn-block"
+            ) Thêm vào giỏ hàng
+      
+      
+      .row
+        .col-12
+          .inner-infomation
+            .inner-label Thông tin tour
+            .inner-text
+              | Nội dung Thông tin tour...
+
+        .col-12
+          .inner-infomation
+            .inner-label Lịch trình tour
+            .inner-text
+              | Nội dung Lịch trình tour...
