@@ -19,6 +19,22 @@ var imagesThumb = new Swiper(".imagesThumb", {
   });
 // End Slider Tour Detail 
 
+//in ra thong bao da them thanh cong
+const alertAddCartSuccess=()=>{
+    const elementAlert=document.querySelector("[alert-add-cart-success]");
+    if(elementAlert){
+        elementAlert.classList.remove("alert-hidden");
+        setTimeout(()=>{
+            elementAlert.classList.add("alert-hidden");
+        },3000); //sau 3s thi add lai class
+
+        const closeAlert=elementAlert.querySelector("[close-alert]");
+        closeAlert.addEventListener("click",()=>{
+            elementAlert.classList.add("alert-hidden");
+        });
+    }
+}
+
 //Carts
 const cart = localStorage.getItem("cart"); //check xem co key "card" trong localStorage khong
 if(!cart){ //neu chua co gio hang thi tao gio hang moi
@@ -48,6 +64,7 @@ if(formAddToCart){
             }
             //luu vao local storage:
             localStorage.setItem("cart",JSON.stringify(cart)); //update item cart=gia tri cart moi
+            alertAddCartSuccess();
         }
     });
 }

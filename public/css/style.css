@@ -185,14 +185,14 @@
   /* End tour-detail */
   
   /* Alert Add Cart Susscess */
-  [alert-add-cart-susscess] {
+  [alert-add-cart-success] {
     position: fixed;
     top: 70px;
     right: 15px;
     z-index: 9999;
   }
   
-  [alert-add-cart-susscess].alert-hidden {
+  [alert-add-cart-success].alert-hidden {
     animation-name: alert-hidden;
     animation-fill-mode: both;
   }
