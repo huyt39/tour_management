@@ -3,12 +3,14 @@ header.header
         .row.align-items-center 
             .col-3 
                 .inner-logo 
-                    .a(href="/")
+                    a(href="/")
                         img(src="/images/logo.svg", alt="Logo")
             .col-9 
                 .inner-menu 
                     ul 
-                        li 
+                        li.no-bullet 
                             a(href="/") Trang chủ
-                        li 
+                        li.no-bullet 
                             a(href="/categories") Danh mục
+                        li.no-bullet 
+                            a(href="/cart") Giỏ hàng(<span mini-cart>0</span>)
