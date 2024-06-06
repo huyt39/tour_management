@@ -18,3 +18,37 @@ var imagesThumb = new Swiper(".imagesThumb", {
     },
   });
 // End Slider Tour Detail 
+
+//Carts
+const cart = localStorage.getItem("cart"); //check xem co key "card" trong localStorage khong
+if(!cart){ //neu chua co gio hang thi tao gio hang moi
+    localStorage.setItem("cart",JSON.stringify([]));
+}
+//Them tour vao gio hang:
+const formAddToCart=document.querySelector("[form-add-to-cart]");
+if(formAddToCart){
+    formAddToCart.addEventListener("submit", (event)=>{
+        event.preventDefault(); //ngan chan hanh vi mac dinh la load lai trang khi submit
+        
+        const quantity=parseInt(event.target.elements.quantity.value); //chuyen chuoi thanh number
+        const tourId=parseInt(formAddToCart.getAttribute("tour-id"));
+
+        if(quantity>0 && tourId){ //neu so luong>0 va ton tai tourId moi cho dat hang
+            const cart = JSON.parse(localStorage.getItem("cart"));
+
+            //check xem tour da ton tai trong gio hang chua, de gop tour bi trung:
+            const indexExistTour=cart.findIndex(item=>item.tourId==tourId); //tim ra vi tri tour da ton tai trong gio hang
+            if(indexExistTour==-1){
+                cart.push({ //add them phan tu
+                    tourId: tourId,
+                    quantity: quantity
+                });
+            }else{  //update phan tu
+                cart[indexExistTour].quantity=cart[indexExistTour].quantity+quantity;
+            }
+            //luu vao local storage:
+            localStorage.setItem("cart",JSON.stringify(cart)); //update item cart=gia tri cart moi
+        }
+    });
+}
+//End Carts
