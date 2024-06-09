@@ -87,3 +87,75 @@ if(formAddToCart){
     });
 }
 //End Carts
+
+//Get data cart printout interface
+const drawListTable = () => {
+    const tableCart = document.querySelector("[table-cart]");
+    if(tableCart){
+        fetch('/cart/list-json', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: localStorage.getItem('cart')
+            //Send API to backend
+        })
+        .then(response => response.json())
+        .then(data => {
+                const tours = data.tours;
+                const htmls = tours.map((item, index) => {
+                    return `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>
+                                <img src="${item.infoTour.images[0]}" alt="${item.infoTour.title}" width="80px">
+                            </td>
+                            <td>
+                                <a href="/tours/detail/${item.infoTour.slug}">${item.infoTour.title}</a>
+                            </td>
+                            <td>${item.infoTour.price_special.toLocaleString()}đ</td>
+                            <td>
+                                <input type="number" name="quantity" value="${item.quantity}" min="1" item-id="${item.tourId}" style="width: 60px">
+                            </td>
+                            <td>${item.infoTour.total.toLocaleString()}đ</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger" btn-delete="${item.tourId}">Xóa</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                const tbody = tableCart.querySelector("tbody");
+                tbody.innerHTML = htmls.join("");
+
+                // Tổng tiền
+                const totalPrice = tours.reduce((sum, item) => sum + item.infoTour.total, 0);
+                const elementTotalPrice = document.querySelector("[total-price]");
+                elementTotalPrice.innerHTML = totalPrice.toLocaleString();
+
+                deleteItemInCart();
+            });
+        };
+    };
+    //End Get data cart printout interface
+    
+    //Delete item
+    const deleteItemInCart = () => {
+        const buttonsDelete = document.querySelectorAll("[btn-delete]");
+        if(buttonsDelete.length > 0) {
+            buttonsDelete.forEach(button => {
+                button.addEventListener("click", () => {
+                    const tourId = parseInt(button.getAttribute("btn-delete"));                
+                    const cart = JSON.parse(localStorage.getItem('cart'));
+                    const newCart = cart.filter(item => item.tourId !== tourId);
+    
+                    localStorage.setItem('cart', JSON.stringify(newCart));
+                    drawListTable();
+                    showMiniCart();
+                })
+            });
+        }
+        }
+        //End delete item
+
+drawListTable();
