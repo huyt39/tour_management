@@ -134,8 +134,12 @@ const drawListTable = () => {
                 elementTotalPrice.innerHTML = totalPrice.toLocaleString();
 
                 deleteItemInCart();
-            });
-        };
+                updateQuantityInCart();
+            })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    };
     };
     //End Get data cart printout interface
     
@@ -152,10 +156,33 @@ const drawListTable = () => {
                     localStorage.setItem('cart', JSON.stringify(newCart));
                     drawListTable();
                     showMiniCart();
-                })
+                });
             });
         }
         }
         //End delete item
+
+        //Update quantity
+const updateQuantityInCart = () => {
+    const updateInputs = document.querySelectorAll('input[name="quantity"]');
+    if(updateInputs.length > 0){
+        updateInputs.forEach(input => {
+            input.addEventListener("change", () => {
+                const tourId = parseInt(input.getAttribute("item-id"));
+                const quantity = parseInt(input.value);
+                const cart = JSON.parse(localStorage.getItem('cart'));
+
+                for (const item of cart) {
+                    if(item.tourId === tourId)
+                        item.quantity = quantity
+                }
+
+                localStorage.setItem('cart', JSON.stringify(cart));
+                drawListTable();
+            });
+        });
+    }
+}
+//End update quantity
 
 drawListTable();
